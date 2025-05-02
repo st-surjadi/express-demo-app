@@ -17,9 +17,6 @@ export class Account {
     if (!this.account_number) {
       throw new Error('Account number is required')
     }
-    if (!this.account_type) {
-      throw new Error('Account type is required')
-    }
     if (this.balance < 0) {
       throw new Error('Balance cannot be negative')
     }
