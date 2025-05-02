@@ -33,8 +33,8 @@ export class UserUseCase {
     }
   }
 
-  async getAllUsers() {
-    const rows = await this.userRepository.findAll()
+  async getAllUsers(searchParams = {}) {
+    const rows = await this.userRepository.findAll(searchParams)
     return this._groupUserAccounts(rows)
   }
 

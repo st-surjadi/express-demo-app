@@ -17,7 +17,15 @@ export class UserHandler {
 
   async getAllUsers(req, res) {
     try {
-      const users = await this.userUseCase.getAllUsers()
+      const { search } = req.query
+      const searchParams = {}
+
+      if (search) {
+        searchParams.name = search
+        searchParams.email = search
+      }
+
+      const users = await this.userUseCase.getAllUsers(searchParams)
       sendSuccess(res, users, 'Users retrieved successfully')
     } catch (err) {
       console.error(err)
