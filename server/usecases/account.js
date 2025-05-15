@@ -9,7 +9,8 @@ export class AccountUseCase {
     const account = new Account(accountData)
     account.validate()
 
-    return this.accountRepository.create(account)
+    const id = await this.accountRepository.create(account)
+    return this.getAccountById(id)
   }
 
   async getAccountsByUserId(userId) {
