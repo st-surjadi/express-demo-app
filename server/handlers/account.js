@@ -8,7 +8,7 @@ export class AccountHandler {
   async createAccount(req, res) {
     try {
       const accountId = await this.accountUseCase.createAccount(req.body)
-      sendSuccess(res, { account_id: accountId }, 'Account created successfully', 201)
+      sendSuccess(res, { ...accountId }, 'Account created successfully', 201)
     } catch (err) {
       console.error(err)
       sendError(res, err.message || 'Error creating account')
