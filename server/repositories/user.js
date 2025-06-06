@@ -23,11 +23,8 @@ export class UserRepository {
     const { name, email } = searchParams
     let query = this.db.from('users').select('*')
 
-    if (name) {
-      query = query.ilike('name', `%${name}%`)
-    }
-    if (email) {
-      query = query.ilike('email', `%${email}%`)
+    if (name || email) {
+      query = query.or(`name.ilike.%${name}%,email.ilike.%${email}%`)
     }
 
     const { data, error } = await query
