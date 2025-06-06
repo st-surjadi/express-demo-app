@@ -21,40 +21,27 @@ export class UserRepository {
 
   async findAll(searchParams = {}) {
     const { name, email } = searchParams
-    const conditions = []
-    const params = []
+    let query = this.db.from('users').select('*')
 
     if (name) {
-      conditions.push('u.name LIKE ?')
-      params.push(`%${name}%`)
+      query = query.ilike('name', `%${name}%`)
     }
     if (email) {
-      conditions.push('u.email LIKE ?')
-      params.push(`%${email}%`)
+      query = query.ilike('email', `%${email}%`)
     }
 
-    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' OR ')}` : ''
-
-    return this.db.all(
-      `
-      SELECT u.*, b.id AS bank_id, b.bank_code, b.account_number, b.account_type
-      FROM users u
-      LEFT JOIN bank_accounts b ON u.id = b.user_id
-      ${whereClause}
-    `,
-      params
-    )
+    const { data, error } = await query
+    if (error) throw error
+    return data
   }
 
   async findById(id) {
-    return this.db.all(
-      `
-      SELECT u.*, b.id AS bank_id, b.bank_code, b.account_number, b.account_type
-      FROM users u
-      LEFT JOIN bank_accounts b ON u.id = b.user_id
-      WHERE u.id = ?
-    `,
-      [id]
-    )
+    const { data, error } = await this.db
+      .from('users')
+      .select('*, bank_accounts(id, bank_code, account_number, account_type)')
+      .eq('id', id)
+      .single()
+    if (error) throw error
+    return data
   }
 }
