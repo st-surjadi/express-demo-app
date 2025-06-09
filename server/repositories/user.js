@@ -36,7 +36,6 @@ export class UserRepository {
     }
 
     const { data, error } = await query
-    console.log(data)
     if (error) throw error
     return data
   }
@@ -49,7 +48,6 @@ export class UserRepository {
       .single()
     if (error) throw error
 
-    console.log(data)
     return data
   }
 }

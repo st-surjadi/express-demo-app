@@ -43,7 +43,7 @@ export class UserUseCase {
     if (!user) return null
 
     const rows = [user]
-    return this._groupUserAccounts(rows)
+    return this._groupUserAccounts(rows)[0]
   }
 
   _groupUserAccounts(rows) {
