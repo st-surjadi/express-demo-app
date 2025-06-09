@@ -58,18 +58,19 @@ export class UserUseCase {
           address: row.address,
           phone: row.phone,
           profile_picture: row.profile_picture,
-          accounts: [],
+          accounts: [...row.bank_accounts],
         }
       }
 
-      if (row.bank_id) {
-        usersMap[row.id].accounts.push({
-          id: row.bank_id,
-          bank_code: row.bank_code,
-          account_number: row.account_number,
-          account_type: row.account_type,
-        })
-      }
+      // Used for manual LEFT JOIN process
+      // if (row.bank_id) {
+      //   usersMap[row.id].accounts.push({
+      //     id: row.bank_id,
+      //     bank_code: row.bank_code,
+      //     account_number: row.account_number,
+      //     account_type: row.account_type,
+      //   })
+      // }
     }
 
     return Object.values(usersMap)

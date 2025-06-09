@@ -21,13 +21,22 @@ export class UserRepository {
 
   async findAll(searchParams = {}) {
     const { name, email } = searchParams
-    let query = this.db.from('users').select('*')
+    let query = this.db.from('users').select(`
+        *,
+        bank_accounts (
+          id,
+          bank_code,
+          account_number,
+          account_type
+        )
+      `)
 
     if (name || email) {
       query = query.or(`name.ilike.%${name}%,email.ilike.%${email}%`)
     }
 
     const { data, error } = await query
+    console.log(data)
     if (error) throw error
     return data
   }
