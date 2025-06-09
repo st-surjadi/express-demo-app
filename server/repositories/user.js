@@ -48,6 +48,8 @@ export class UserRepository {
       .eq('id', id)
       .single()
     if (error) throw error
+
+    console.log(data)
     return data
   }
 }

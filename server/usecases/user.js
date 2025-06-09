@@ -39,9 +39,11 @@ export class UserUseCase {
   }
 
   async getUserById(id) {
-    const rows = await this.userRepository.findById(id)
-    if (!rows.length) return null
-    return this._groupUserAccounts(rows)[0]
+    const user = await this.userRepository.findById(id)
+    if (!user) return null
+
+    const rows = [user]
+    return this._groupUserAccounts(rows)
   }
 
   _groupUserAccounts(rows) {
